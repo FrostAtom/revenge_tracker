@@ -1,4 +1,4 @@
-do
+`do
     local lastProc = 0
     local function frame_update_cb(self)
         if GetTime()-lastProc > 6 then
@@ -30,4 +30,4 @@ do
     frame:RegisterEvent("PLAYER_ENTERING_WORLD")
     frame:SetScript("OnEvent",frame_event_cb)
     frame:SetScript("OnUpdate",frame_update_cb)
-end
+end`
