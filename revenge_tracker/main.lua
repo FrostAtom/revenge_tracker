@@ -1,6 +1,9 @@
 
 
 do
+	local REVENGE = GetSpellInfo(57823)
+	
+	
 	local lastProc = 0
 	local function frame_update_cb(self)
 		if GetTime()-lastProc > 6 then
@@ -11,6 +14,11 @@ do
 	local function frame_event_cb(self,event,...)
 		if event == "PLAYER_ENTERING_WORLD" then
 			self:Hide()
+		elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+			local unitID,spellName = ...
+			if unitID == "player" and spellName == REVENGE then
+				self:Hide()
+			end
 		elseif event == "COMBAT_TEXT_UPDATE" then
 			local arg1 = ...
 			if arg1 == "BLOCK" or arg1 == "PARRY" or arg1 == "DODGE" or arg1 == "MISS" then
@@ -28,8 +36,9 @@ do
 	texture:SetAllPoints()
 	texture:SetTexture("Interface\\Icons\\Ability_Warrior_Revenge")
 
-	frame:RegisterEvent("COMBAT_TEXT_UPDATE")
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+	frame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+	frame:RegisterEvent("COMBAT_TEXT_UPDATE")
 	frame:SetScript("OnEvent",frame_event_cb)
 	frame:SetScript("OnUpdate",frame_update_cb)
 end
