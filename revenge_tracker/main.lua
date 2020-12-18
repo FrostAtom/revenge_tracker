@@ -1,12 +1,10 @@
-
-
 do
 	local REVENGE = GetSpellInfo(57823)
-	
-	
+
+
 	local lastProc = 0
 	local function frame_update_cb(self)
-		if GetTime()-lastProc > 6 then
+		if GetTime()-lastProc > 4 then
 			self:Hide()
 		end
 	end
@@ -21,7 +19,7 @@ do
 			end
 		elseif event == "COMBAT_TEXT_UPDATE" then
 			local arg1 = ...
-			if arg1 == "BLOCK" or arg1 == "PARRY" or arg1 == "DODGE" or arg1 == "MISS" then
+			if arg1 == "BLOCK" or arg1 == "PARRY" or arg1 == "DODGE" then
 				lastProc = GetTime()
 				self:Show()
 			end
