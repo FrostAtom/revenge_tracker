@@ -1,6 +1,7 @@
 do
-	local REVENGE = GetSpellInfo(57823)
-
+	local GetTime = GetTime
+	local GetSpellInfo = GetSpellInfo
+	local revenge
 
 	local lastProc = 0
 	local function frame_update_cb(self)
@@ -11,10 +12,11 @@ do
 
 	local function frame_event_cb(self,event,...)
 		if event == "PLAYER_ENTERING_WORLD" then
+			if not revenge then revenge = GetSpellInfo(57823) end
 			self:Hide()
 		elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
 			local unitID,spellName = ...
-			if unitID == "player" and spellName == REVENGE then
+			if revenge and unitID == "player" and spellName == revenge then
 				self:Hide()
 			end
 		elseif event == "COMBAT_TEXT_UPDATE" then
@@ -40,4 +42,3 @@ do
 	frame:SetScript("OnEvent",frame_event_cb)
 	frame:SetScript("OnUpdate",frame_update_cb)
 end
-
